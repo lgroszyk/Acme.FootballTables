@@ -43,6 +43,7 @@ namespace Acme.FootballTables
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             builder.Services.AddMemoryCache();
+            builder.Services.AddLazyCache();
 
             builder.Services.AddTransient<IFootballTableService, FootballTableService>();
             builder.Services.AddTransient(typeof(ICacheProvider), Type.GetType(builder.Configuration["CacheProvider"]));

@@ -1,15 +1,36 @@
-﻿namespace Acme.FootballTables.Server.Cache
+﻿using LazyCache;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Acme.FootballTables.Server.Cache
 {
     public class LazyCacheProvider : ICacheProvider
     {
+        private readonly IAppCache cache;
+
+        public LazyCacheProvider(IAppCache cache)
+        {
+            this.cache = cache;
+        }
+
         public T GetOrAdd<T>(string key, Func<T> addCallback)
         {
-            throw new NotImplementedException();
+            return cache.GetOrAdd(key, addCallback, new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = TimeSpan.FromSeconds(60)
+            });
         }
 
         public void Add<T>(string key, T value)
         {
-            throw new NotImplementedException();
+            cache.Add(key, value, new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = TimeSpan.FromSeconds(60)
+            });
+        }
+
+        public void Remove(string key)
+        {
+            cache.Remove(key);
         }
     }
 }

@@ -18,5 +18,10 @@
         {
             cacheProvider.Add<T>(key, value);
         }
+
+        public void Remove(string key)
+        {
+            cacheProvider.Remove(key);
+        }
     }
 }

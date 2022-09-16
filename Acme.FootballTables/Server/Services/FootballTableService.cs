@@ -157,7 +157,7 @@ namespace Acme.FootballTables.Server.Services
             databaseContext.LeagueTables.Remove(table);
             await databaseContext.SaveChangesAsync();
 
-            cacheContext.Add<LeagueTable?>($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}", null);
+            cacheContext.Remove($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}");
             var updatedSeasonsData = GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery()();
             cacheContext.Add("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
 
@@ -253,7 +253,7 @@ namespace Acme.FootballTables.Server.Services
             cacheContext.Add("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
             foreach (var table in season.LeaguesTables)
             {
-                cacheContext.Add<LeagueTable?>($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{table.Id}", null);
+                cacheContext.Remove($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{table.Id}");
             }
 
             var successResponseBody = new DeleteSeasonResponse

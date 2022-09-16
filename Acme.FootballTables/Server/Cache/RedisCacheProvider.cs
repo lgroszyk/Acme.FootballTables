@@ -11,5 +11,10 @@
         {
             throw new NotImplementedException();
         }
+
+        public void Remove(string key)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
