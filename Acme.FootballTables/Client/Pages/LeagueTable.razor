@@ -1,0 +1,48 @@
+﻿@page "/league_table/{id}"
+
+<PageTitle>League table</PageTitle>
+
+
+@if (data == null)
+{
+	<div class="spinner-border" role="status"></div>
+}
+else
+{
+	<h1>@data.Name</h1>
+	<AuthorizeView>
+		<p>
+			<button class="btn btn-danger" @onclick="OpenDeleteTableModal">Delete</button>
+			<button class="btn btn-primary" @onclick="NavigateToEditPage">Edit</button>
+		</p>
+	</AuthorizeView>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Pos</th>
+				<th scope="col">Team</th>
+				<th scope="col">Pts</th>
+				<th scope="col">M</th>
+				<th scope="col">W</th>
+				<th scope="col">D</th>
+				<th scope="col">L</th>
+				<th scope="col">GD</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var entry in data.Entries)
+			{
+				<tr>
+					<th scope="row">@entry.Position</th>
+					<td>@entry.Team</td>
+					<td>@entry.Points</td>
+					<td>@entry.MatchesPlayed</td>
+					<td>@entry.MatchesWon</td>
+					<td>@entry.MatchesDrawn</td>
+					<td>@entry.MatchesLost</td>
+					<td>@entry.GoalDifference</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

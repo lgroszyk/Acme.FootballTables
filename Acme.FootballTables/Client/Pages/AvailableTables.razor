@@ -1,0 +1,54 @@
+﻿@page "/available_tables"
+
+<PageTitle>Available tables</PageTitle>
+
+<h1>Available tables</h1>
+
+@if (data == null)
+{
+	<div class="spinner-border" role="status"></div>
+}
+else
+{
+	<AuthorizeView>
+		<p>
+			<NavLink class="nav-link" href="add_season">Add season</NavLink>
+		</p>
+		<p>
+			<NavLink class="nav-link" href="add_table">Add new table</NavLink>
+		</p>
+	</AuthorizeView>
+	@foreach (var seasonTablesSet in data.SeasonTablesSets)
+	{
+		var id = "tables-" + seasonTablesSet.SeasonName
+			.Replace("/", "")
+			.Replace(" ", "");
+		<p>
+			<button class="btn btn-primary" type="button"
+					data-bs-toggle="collapse" data-bs-target="#@id"
+					aria-expanded="false" aria-controls="@id">
+				@(seasonTablesSet.SeasonName)
+			</button>
+		</p>
+		<p>
+			<div id="@id" class="collapse">
+				<div class="card card-body">
+					<AuthorizeView>
+						<p>
+							<NavLink class="nav-link" href="@($"edit_season/{seasonTablesSet.SeasonId}")">
+								<button class="btn btn-primary">Edit season</button>
+							</NavLink>
+						</p>
+					</AuthorizeView>
+					@foreach (var table in seasonTablesSet.Tables)
+					{
+						var href = $"league_table/{table.Id}";
+						<p>
+							<NavLink class="nav-link" href="@href">@table.Name</NavLink>
+						</p>
+					}
+				</div>
+			</div>
+		</p>
+	}
+}

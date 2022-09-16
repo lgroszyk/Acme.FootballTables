@@ -1,0 +1,39 @@
+﻿@page "/add_table"
+
+<PageTitle>Add new table</PageTitle>
+
+<h1>Add new table</h1>
+
+@if (seasons == null)
+{
+	<div class="spinner-border" role="status"></div>
+}
+else
+{
+	<EditForm class="app-form" Model="@data" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="name">Table name</label>
+            <InputText id="name" class="form-control" @bind-Value="data.Name" />
+        </div>
+
+        <div class="form-group">
+            <label for="season">Season</label>
+            <InputSelect id="season" class="form-select" @bind-Value="data.SeasonId">
+                @foreach(var season in seasons)
+                {
+                    <option value="@season.Value">@season.Name</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form-group">
+            <label for="info">Additional info</label>
+            <InputTextArea id="info" class="form-control" @bind-Value="data.AdditionalInfo" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </EditForm>
+}

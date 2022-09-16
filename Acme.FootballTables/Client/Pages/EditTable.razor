@@ -1,0 +1,24 @@
+﻿@page "/edit_table/{id}"
+
+<PageTitle>Edit table entries</PageTitle>
+
+@if (tableName == null)
+{
+	<div class="spinner-border" role="status"></div>
+}
+else
+{
+	<h1>@tableName</h1>
+
+	<EditForm class="app-form" Model="@model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="entries">Entries</label>
+            <InputTextArea id="entries" class="form-control test" @bind-Value="model.Entries" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </EditForm>
+}

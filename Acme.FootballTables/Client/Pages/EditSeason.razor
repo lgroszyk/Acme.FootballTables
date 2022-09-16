@@ -1,0 +1,38 @@
+﻿@page "/edit_season/{id}"
+
+<PageTitle>Edit season data</PageTitle>
+
+<h1>Edit season</h1>
+
+@if (model == null)
+{
+	<div class="spinner-border" role="status"></div>
+}
+else
+{
+	<p>
+		<button class="btn btn-danger" @onclick="OpenDeleteSeasonModal">Delete</button>
+	</p>
+
+    <EditForm class="app-form" Model="@model" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="name">Season name</label>
+            <InputText id="name" class="form-control" @bind-Value="model.Name" />
+        </div>
+
+        <div class="form-group">
+            <label for="start-year">Start year</label>
+            <InputNumber id="start-year" class="form-control" @bind-Value="model.StartYear" />
+        </div>
+
+        <div class="form-group">
+            <label for="end-year">End year</label>
+            <InputNumber id="end-year" class="form-control" @bind-Value="model.EndYear" />
+        </div>
+
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </EditForm>
+}
