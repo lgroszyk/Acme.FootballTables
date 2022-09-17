@@ -1,4 +1,6 @@
-﻿namespace Acme.FootballTables.Server.Cache
+﻿using Acme.FootballTables.Server.Utils;
+
+namespace Acme.FootballTables.Server.Cache
 {
     public class CacheContext
     {
@@ -9,19 +11,29 @@
             this.cacheProvider = cacheProvider;
         }
 
-        public T GetOrAdd<T>(string key, Func<T> addCallback)
+        public async Task<T> GetOrAddAsync<T>(string key, Func<T> addCallback)
         {
-            return cacheProvider.GetOrAdd<T>(key, addCallback);
+            return await GetOrAddAsync(key, addCallback, 1);
         }
 
-        public void Add<T>(string key, T value)
+        public async Task<T> GetOrAddAsync<T>(string key, Func<T> addCallback, int size)
         {
-            cacheProvider.Add<T>(key, value);
+            return await cacheProvider.GetOrAddAsync<T>(key, addCallback, size);
         }
 
-        public void Remove(string key)
+        public async Task AddAsync<T>(string key, T value)
         {
-            cacheProvider.Remove(key);
+            await AddAsync(key, value, 1);
+        }
+
+        public async Task AddAsync<T>(string key, T value, int size)
+        {
+            await cacheProvider.AddAsync<T>(key, value, size);
+        }
+
+        public async Task RemoveAsync(string key)
+        {
+            await cacheProvider.RemoveAsync(key);
         }
     }
 }

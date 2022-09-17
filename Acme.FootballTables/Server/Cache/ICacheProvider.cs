@@ -2,8 +2,8 @@
 {
     public interface ICacheProvider
     {
-        T GetOrAdd<T>(string key, Func<T> addCallback);
-        void Add<T>(string key, T value);
-        void Remove(string key);
+        Task<T> GetOrAddAsync<T>(string key, Func<T> addCallback, int size);
+        Task AddAsync<T>(string key, T value, int size);
+        Task RemoveAsync(string key);
     }
 }

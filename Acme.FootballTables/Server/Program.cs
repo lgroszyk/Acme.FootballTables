@@ -2,6 +2,7 @@ using Acme.FootballTables.Server.Cache;
 using Acme.FootballTables.Server.Data;
 using Acme.FootballTables.Server.Models;
 using Acme.FootballTables.Server.Services;
+using Acme.FootballTables.Server.Utils;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -42,8 +43,16 @@ namespace Acme.FootballTables
 
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-            builder.Services.AddMemoryCache();
-            builder.Services.AddLazyCache();
+            builder.Services.AddMemoryCache(setup =>
+            {
+                setup.SizeLimit = 10;
+            });
+            builder.Services.AddLazyCache(); // TODO set up SizeLimit
+            builder.Services.AddStackExchangeRedisCache(options =>
+            {
+                // https://learn.microsoft.com/en-us/azure/azure-cache-for-redis/cache-web-app-aspnet-core-howto
+                options.Configuration = builder.Configuration["RedisConnectionString"];
+            });
 
             builder.Services.AddTransient<IFootballTableService, FootballTableService>();
             builder.Services.AddTransient(typeof(ICacheProvider), Type.GetType(builder.Configuration["CacheProvider"]));

@@ -19,17 +19,17 @@ namespace Acme.FootballTables.Server.Controllers
 
         [HttpGet("[action]")]
         [AllowAnonymous]
-        public IActionResult GetAvailableTables()
+        public async Task<IActionResult> GetAvailableTables()
         {
-            var response = service.GetAvailableTables();
+            var response = await service.GetAvailableTablesAsync();
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
         [HttpGet("[action]/{id}")]
         [AllowAnonymous]
-        public IActionResult GetTable(int id)
+        public async Task<IActionResult> GetTable(int id)
         {
-            var response = service.GetTable(id);
+            var response = await service.GetTableAsync(id);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -37,7 +37,7 @@ namespace Acme.FootballTables.Server.Controllers
         [Authorize]
         public async Task<IActionResult> AddTable(AddTableRequest request)
         {
-            var response = await service.AddTable(request);
+            var response = await service.AddTableAsync(request);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -45,15 +45,15 @@ namespace Acme.FootballTables.Server.Controllers
         [Authorize]
         public async Task<IActionResult> AddSeason(AddSeasonRequest request)
         {
-            var response = await service.AddSeason(request);
+            var response = await service.AddSeasonAsync(request);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
         [HttpGet("[action]")]
         [Authorize]
-        public IActionResult GetAvailableSeasons()
+        public async Task<IActionResult> GetAvailableSeasons()
         {
-            var response = service.GetAvailableSeasons();
+            var response = await service.GetAvailableSeasonsAsync();
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -61,7 +61,7 @@ namespace Acme.FootballTables.Server.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteTable(int id)
         {
-            var response = await service.DeleteTable(id);
+            var response = await service.DeleteTableAsync(id);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -69,7 +69,7 @@ namespace Acme.FootballTables.Server.Controllers
         [Authorize]
         public async Task<IActionResult> GetSeason(int id)
         {
-            var response = await service.GetSeason(id);
+            var response = await service.GetSeasonAsync(id);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -77,7 +77,7 @@ namespace Acme.FootballTables.Server.Controllers
         [Authorize]
         public async Task<IActionResult> EditSeason(int id, EditSeasonRequest request)
         {
-            var response = await service.EditSeason(id, request);
+            var response = await service.EditSeasonAsync(id, request);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -85,15 +85,15 @@ namespace Acme.FootballTables.Server.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteSeason(int id)
         {
-            var response = await service.DeleteSeason(id);
+            var response = await service.DeleteSeasonAsync(id);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
         [HttpGet("[action]/{id}")]
         [Authorize]
-        public IActionResult GetTableName(int id)
+        public async Task<IActionResult> GetTableName(int id)
         {
-            var response = service.GetTableName(id);
+            var response = await service.GetTableNameAsync(id);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -101,7 +101,7 @@ namespace Acme.FootballTables.Server.Controllers
         [Authorize]
         public async Task<IActionResult> EditTable(int id, EditTableRequest request)
         {
-            var response = await service.EditTable(id, request);
+            var response = await service.EditTableAsync(id, request);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 

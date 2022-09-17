@@ -1,59 +1,67 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using Acme.FootballTables.Server.Utils;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json.Linq;
+using System.Drawing;
 
 namespace Acme.FootballTables.Server.Cache
 {
     public class MemoryCacheProvider : ICacheProvider
     {
         private readonly IMemoryCache cache;
-        private readonly object cacheLockObject;
+        private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         public MemoryCacheProvider(IMemoryCache cache)
         {
             this.cache = cache;
-            cacheLockObject = new object();
         }
 
-        public T GetOrAdd<T>(string key, Func<T> addCallback)
+        public async Task<T> GetOrAddAsync<T>(string key, Func<T> addCallback, int size)
         {
-            T value;
-            cache.TryGetValue(key, out value);
-            if (value != null)
+            await semaphore.WaitAsync();
+            try
             {
-                return value;
-            }
-
-            lock (cacheLockObject)
-            {
-                cache.TryGetValue(key, out value);
-                if (value == null)
+                return await cache.GetOrCreateAsync<T>(key, entry =>
                 {
-                    value = addCallback();
-                    cache.Set(key, value, new MemoryCacheEntryOptions
-                    {
-                        SlidingExpiration = TimeSpan.FromSeconds(60)
-                    });
-                }
+                    entry.SlidingExpiration = TimeSpan.FromSeconds(60);
+                    entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
+                    entry.Size = size;
+                    return Task.FromResult(addCallback());
+                });
             }
-
-            return value;
+            finally
+            {
+                semaphore.Release();
+            }
         }
 
-        public void Add<T>(string key, T value)
+        public async Task AddAsync<T>(string key, T value, int size)
         {
-            lock (cacheLockObject)
+            await semaphore.WaitAsync();
+            try
             {
                 cache.Set(key, value, new MemoryCacheEntryOptions
                 {
-                    SlidingExpiration = TimeSpan.FromSeconds(60)
+                    SlidingExpiration = TimeSpan.FromSeconds(60),
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
+                    Size = size,
                 });
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
 
-        public void Remove(string key)
+        public async Task RemoveAsync(string key)
         {
-            lock (cacheLockObject)
+            await semaphore.WaitAsync();
+            try
             {
                 cache.Remove(key);
+            }
+            finally
+            {
+                semaphore.Release();
             }
         }
     }

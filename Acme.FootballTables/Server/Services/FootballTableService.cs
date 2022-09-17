@@ -1,6 +1,7 @@
 ﻿using Acme.FootballTables.Server.Cache;
 using Acme.FootballTables.Server.Data;
 using Acme.FootballTables.Server.Models;
+using Acme.FootballTables.Server.Utils;
 using Acme.FootballTables.Shared;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
@@ -26,12 +27,12 @@ namespace Acme.FootballTables.Server.Services
             this.mapper = mapper;
         }
 
-        public ServiceActionResult<GetAvailableTablesResponse> GetAvailableTables()
+        public async Task<ServiceActionResult<GetAvailableTablesResponse>> GetAvailableTablesAsync()
         {
             //var tablesQuery = () => mapper.ProjectTo<SeasonTablesSet>(databaseContext.Seasons
             //    .OrderByDescending(season => season.EndYear));
 
-            var seasons = cacheContext.GetOrAdd("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
+            var seasons = await cacheContext.GetOrAddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
                 GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery());
 
             var responseBody = new GetAvailableTablesResponse
@@ -43,9 +44,9 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.OK, responseBody);
         }
 
-        public ServiceActionResult<GetAvailableSeasonsResponse> GetAvailableSeasons()
+        public async Task<ServiceActionResult<GetAvailableSeasonsResponse>> GetAvailableSeasonsAsync()
         {
-            var seasons = cacheContext.GetOrAdd("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
+            var seasons = await cacheContext.GetOrAddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
                 GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery());
 
             var responseBody = new GetAvailableSeasonsResponse
@@ -57,9 +58,9 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.OK, responseBody);
         }
 
-        public ServiceActionResult<GetTableResponse> GetTable(int id)
+        public async Task<ServiceActionResult<GetTableResponse>> GetTableAsync(int id)
         {
-            var table = cacheContext.GetOrAdd($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}", 
+            var table = await cacheContext.GetOrAddAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}", 
                 GetLeagueTableWithItsEntriesAndSeasonIncluded(id));
 
             if (table == null)
@@ -85,9 +86,9 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.OK, successResponseBody);
         }
 
-        public async Task<ServiceActionResult<AddTableResponse>> AddTable(AddTableRequest request)
+        public async Task<ServiceActionResult<AddTableResponse>> AddTableAsync(AddTableRequest request)
         {
-            var seasons = cacheContext.GetOrAdd("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
+            var seasons = await cacheContext.GetOrAddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
                 GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery());
 
             var doGivenSeasonExist = seasons.SingleOrDefault(season => season.Id == request.SeasonId) != null;
@@ -108,9 +109,9 @@ namespace Acme.FootballTables.Server.Services
             await databaseContext.SaveChangesAsync();
 
             var addedTableDbData = GetLeagueTableWithItsEntriesAndSeasonIncluded(newTable.Id)();
-            cacheContext.Add($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{addedTableDbData.Id}", addedTableDbData);
+            await cacheContext.AddAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{addedTableDbData.Id}", addedTableDbData);
             var updatedSeasonsData = GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery()();
-            cacheContext.Add("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
+            await cacheContext.AddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
 
             var successResponseBody = new AddTableResponse
             {
@@ -121,7 +122,7 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.Created, successResponseBody);
         }
 
-        public async Task<ServiceActionResult<AddSeasonResponse>> AddSeason(AddSeasonRequest request)
+        public async Task<ServiceActionResult<AddSeasonResponse>> AddSeasonAsync(AddSeasonRequest request)
         {
             var newSeason = mapper.Map<Season>(request);
 
@@ -129,7 +130,7 @@ namespace Acme.FootballTables.Server.Services
             await databaseContext.SaveChangesAsync();
 
             var updatedSeasonsData = GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery()();
-            cacheContext.Add("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
+            await cacheContext.AddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
 
             var successResponseBody = new AddSeasonResponse
             {
@@ -140,9 +141,10 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.Created, successResponseBody);
         }
 
-        public async Task<ServiceActionResult<DeleteTableResponse>> DeleteTable(int id)
+        public async Task<ServiceActionResult<DeleteTableResponse>> DeleteTableAsync(int id)
         {
-            var table = GetLeagueTableWithItsEntriesAndSeasonIncluded(id)();
+            var table = await cacheContext.GetOrAddAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}",
+                GetLeagueTableWithItsEntriesAndSeasonIncluded(id));
             if (table == null)
             {
                 var notFoundResponseBody = new DeleteTableResponse
@@ -157,9 +159,9 @@ namespace Acme.FootballTables.Server.Services
             databaseContext.LeagueTables.Remove(table);
             await databaseContext.SaveChangesAsync();
 
-            cacheContext.Remove($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}");
+            await cacheContext.RemoveAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}");
             var updatedSeasonsData = GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery()();
-            cacheContext.Add("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
+            await cacheContext.AddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
 
             var successResponseBody = new DeleteTableResponse
             {
@@ -170,9 +172,9 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.OK, successResponseBody);
         }
 
-        public async Task<ServiceActionResult<GetSeasonResponse>> GetSeason(int id)
+        public async Task<ServiceActionResult<GetSeasonResponse>> GetSeasonAsync(int id)
         {
-            var seasons = cacheContext.GetOrAdd("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
+            var seasons = await cacheContext.GetOrAddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
                 GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery());
             var season = seasons.SingleOrDefault(season => season.Id == id);
             if (season == null)
@@ -193,9 +195,9 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.OK, successResponseBody);
         }
 
-        public async Task<ServiceActionResult<EditSeasonResponse>> EditSeason(int id, EditSeasonRequest request)
+        public async Task<ServiceActionResult<EditSeasonResponse>> EditSeasonAsync(int id, EditSeasonRequest request)
         {
-            var seasons = cacheContext.GetOrAdd("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
+            var seasons = await cacheContext.GetOrAddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
                 GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery());
             var season = seasons.SingleOrDefault(season => season.Id == id);
             if (season == null)
@@ -214,11 +216,11 @@ namespace Acme.FootballTables.Server.Services
             await databaseContext.SaveChangesAsync();
 
             var updatedSeasonsData = GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery()();
-            cacheContext.Add("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
+            await cacheContext.AddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
             foreach (var table in season.LeaguesTables)
             {
                 var updatedTableDbData = GetLeagueTableWithItsEntriesAndSeasonIncluded(table.Id)();
-                cacheContext.Add($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{updatedTableDbData.Id}", updatedTableDbData);
+                await cacheContext.AddAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{updatedTableDbData.Id}", updatedTableDbData);
             }
 
             var successResponse = new EditSeasonResponse
@@ -230,9 +232,9 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.OK, successResponse);
         }
 
-        public async Task<ServiceActionResult<DeleteSeasonResponse>> DeleteSeason(int id)
+        public async Task<ServiceActionResult<DeleteSeasonResponse>> DeleteSeasonAsync(int id)
         {
-            var seasons = cacheContext.GetOrAdd("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
+            var seasons = await cacheContext.GetOrAddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded",
                 GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery());
             var season = seasons.SingleOrDefault(season => season.Id == id);
             if (season == null)
@@ -250,10 +252,10 @@ namespace Acme.FootballTables.Server.Services
             await databaseContext.SaveChangesAsync();
 
             var updatedSeasonsData = GetSeasonsOrderedDescendingByEndYearWithTablesIncludedQuery()();
-            cacheContext.Add("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
+            await cacheContext.AddAsync("SeasonsOrderedDescendingByEndYearWithTablesIncluded", updatedSeasonsData);
             foreach (var table in season.LeaguesTables)
             {
-                cacheContext.Remove($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{table.Id}");
+                await cacheContext.RemoveAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{table.Id}");
             }
 
             var successResponseBody = new DeleteSeasonResponse
@@ -265,9 +267,9 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.OK, successResponseBody);
         }
 
-        public ServiceActionResult<GetTableNameResponse> GetTableName(int id)
+        public async Task<ServiceActionResult<GetTableNameResponse>> GetTableNameAsync(int id)
         {
-            var table = cacheContext.GetOrAdd($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}",
+            var table = await cacheContext.GetOrAddAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}",
                 GetLeagueTableWithItsEntriesAndSeasonIncluded(id));
             if (table == null)
             {
@@ -289,9 +291,9 @@ namespace Acme.FootballTables.Server.Services
                 HttpStatusCode.OK, successResponseBody);
         }
 
-        public async Task<ServiceActionResult<EditTableResponse>> EditTable(int id, EditTableRequest request)
+        public async Task<ServiceActionResult<EditTableResponse>> EditTableAsync(int id, EditTableRequest request)
         {
-            var table = cacheContext.GetOrAdd($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}",
+            var table = await cacheContext.GetOrAddAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{id}",
                 GetLeagueTableWithItsEntriesAndSeasonIncluded(id));
             if (table == null)
             {
@@ -311,7 +313,7 @@ namespace Acme.FootballTables.Server.Services
             await databaseContext.SaveChangesAsync();
 
             var updatedTableDbData = GetLeagueTableWithItsEntriesAndSeasonIncluded(table.Id)();
-            cacheContext.Add($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{updatedTableDbData.Id}", updatedTableDbData);
+            await cacheContext.AddAsync($"LeagueTableWithItsEntriesAndRelatedSeasonIncluded_{updatedTableDbData.Id}", updatedTableDbData);
 
             var successResponseBody = new EditTableResponse
             {
@@ -368,7 +370,7 @@ namespace Acme.FootballTables.Server.Services
             return query;
         }
 
-        public ServiceActionResult<string> Debug_ClearAndSeedFootballTables()
+        public ServiceActionResult<DebugResponse> Debug_ClearAndSeedFootballTables()
         {
             databaseContext.LeagueTableEntries.RemoveRange(databaseContext.LeagueTableEntries);
             databaseContext.LeagueTables.RemoveRange(databaseContext.LeagueTables);
@@ -388,7 +390,12 @@ namespace Acme.FootballTables.Server.Services
             databaseContext.LeagueTableEntries.AddRange(entries);
             databaseContext.SaveChanges();
 
-            return new ServiceActionResult<string>(HttpStatusCode.OK, "Done");
+            var successResponseBody = new DebugResponse
+            {
+                Success = true,
+                Message = "Done. Restart your app in order to clear the cache."
+            };
+            return new ServiceActionResult<DebugResponse>(HttpStatusCode.OK, successResponseBody);
         }
     }
 }
