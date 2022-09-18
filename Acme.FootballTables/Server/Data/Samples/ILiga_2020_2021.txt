@@ -3,3 +3,16 @@
 3	GKS Tychy	63	18	9	7	49	27
 4	Arka Gdynia	60	17	9	8	51	32
 5	ŁKS Łódź	58	17	7	10	59	41
+6	Górnik Łęczna	56	15	11	8	47	30
+7	Miedź Legnica	51	13	12	9	49	36
+8	Odra Opole	49	13	10	11	35	41
+9	Widzew Łódź	46	11	13	10	30	36
+10	Sandecja Nowy Sącz	45	12	9	13	42	50
+11	Chrobry Głogów	44	12	8	14	34	45
+12	Korona Kielce	41	11	8	15	31	46
+13	Puszcza Niepołomice	37	10	7	17	32	46
+14	GKS 1962 Jastrzębie (Jastrzębie Zdrój)	35	10	5	19	32	48
+15	Stomil Olsztyn	35	9	8	17	31	48
+16	Resovia	32	8	8	18	27	45
+17	Zagłębie Sosnowiec	30	8	6	20	35	43
+18	GKS Bełchatów	23	6	7	21	24	51

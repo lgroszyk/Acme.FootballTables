@@ -393,8 +393,10 @@ namespace Acme.FootballTables.Server.Services
             var successResponseBody = new DebugResponse
             {
                 Success = true,
-                Message = "Done. Restart your app in order to clear the cache."
+                Message = "Done. Please restart the app cache."
             };
+            // To restart the app cache, either restart the app (MemoryCacheProvider and LazyCacheProvider)
+            // or flush the cache (RedisCacheProvider - run "flushall" command in the Redis instance console)
             return new ServiceActionResult<DebugResponse>(HttpStatusCode.OK, successResponseBody);
         }
     }
