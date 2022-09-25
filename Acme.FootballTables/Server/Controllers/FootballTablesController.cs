@@ -25,11 +25,35 @@ namespace Acme.FootballTables.Server.Controllers
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
+        [HttpGet("[action]")]
+        [Authorize]
+        public async Task<IActionResult> GetAvailableSeasons()
+        {
+            var response = await service.GetAvailableSeasonsAsync();
+            return StatusCode((int)response.ResponseCode, response.ResponseBody);
+        }
+
         [HttpGet("[action]/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetTable(int id)
         {
             var response = await service.GetTableAsync(id);
+            return StatusCode((int)response.ResponseCode, response.ResponseBody);
+        }
+
+        [HttpGet("[action]/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetTableName(int id)
+        {
+            var response = await service.GetTableNameAsync(id);
+            return StatusCode((int)response.ResponseCode, response.ResponseBody);
+        }
+
+        [HttpGet("[action]/{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetSeason(int id)
+        {
+            var response = await service.GetSeasonAsync(id);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -49,27 +73,11 @@ namespace Acme.FootballTables.Server.Controllers
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
-        [HttpGet("[action]")]
+        [HttpPut("[action]/{id}")]
         [Authorize]
-        public async Task<IActionResult> GetAvailableSeasons()
+        public async Task<IActionResult> EditTable(int id, EditTableRequest request)
         {
-            var response = await service.GetAvailableSeasonsAsync();
-            return StatusCode((int)response.ResponseCode, response.ResponseBody);
-        }
-
-        [HttpDelete("[action]/{id}")]
-        [Authorize]
-        public async Task<IActionResult> DeleteTable(int id)
-        {
-            var response = await service.DeleteTableAsync(id);
-            return StatusCode((int)response.ResponseCode, response.ResponseBody);
-        }
-
-        [HttpGet("[action]/{id}")]
-        [Authorize]
-        public async Task<IActionResult> GetSeason(int id)
-        {
-            var response = await service.GetSeasonAsync(id);
+            var response = await service.EditTableAsync(id, request);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 
@@ -83,25 +91,17 @@ namespace Acme.FootballTables.Server.Controllers
 
         [HttpDelete("[action]/{id}")]
         [Authorize]
+        public async Task<IActionResult> DeleteTable(int id)
+        {
+            var response = await service.DeleteTableAsync(id);
+            return StatusCode((int)response.ResponseCode, response.ResponseBody);
+        }
+
+        [HttpDelete("[action]/{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteSeason(int id)
         {
             var response = await service.DeleteSeasonAsync(id);
-            return StatusCode((int)response.ResponseCode, response.ResponseBody);
-        }
-
-        [HttpGet("[action]/{id}")]
-        [Authorize]
-        public async Task<IActionResult> GetTableName(int id)
-        {
-            var response = await service.GetTableNameAsync(id);
-            return StatusCode((int)response.ResponseCode, response.ResponseBody);
-        }
-
-        [HttpPut("[action]/{id}")]
-        [Authorize]
-        public async Task<IActionResult> EditTable(int id, EditTableRequest request)
-        {
-            var response = await service.EditTableAsync(id, request);
             return StatusCode((int)response.ResponseCode, response.ResponseBody);
         }
 

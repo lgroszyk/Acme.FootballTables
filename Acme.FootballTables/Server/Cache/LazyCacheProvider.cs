@@ -17,10 +17,13 @@ namespace Acme.FootballTables.Server.Cache
         {
             return await cache.GetOrAddAsync(key, entry =>
             {
-                entry.SlidingExpiration = TimeSpan.FromSeconds(60);
-                entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
-                entry.Size = size;
                 return Task.FromResult(addCallback());
+            }, 
+            new MemoryCacheEntryOptions
+            {
+                SlidingExpiration = TimeSpan.FromSeconds(60),
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10),
+                Size = size
             });
         }
 

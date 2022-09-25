@@ -3,6 +3,11 @@ The app is designed to learn different cache usage options in ASP.NET Core - bot
 - LazyCacheProvider (using the LazyCache.AspNetCore library)
 - RedisCacheProvider (using the Microsoft.Extensions.Caching.StackExchangeRedis library)
 
+The application was also used to recall me some other features in ASP.NET Core, eg.:
+- integration testing (WebApplicationFactory)
+- mapping objects (Automapper)
+- setting up logger (Serilog)
+
 The subject of the application are football league tables - data rarely modified by admin user, and often read by standard users.
 
 The application uses ASP.NET Identity. In order to use all app options, you must create a user account and log in to it.

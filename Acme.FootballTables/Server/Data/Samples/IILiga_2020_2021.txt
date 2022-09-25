@@ -1,0 +1,19 @@
+﻿1	Górnik Polkowice	76	22	10	4	70	29
+2	GKS Katowice	70	22	4	10	67	41
+3	Chojniczanka Chojnice	67	19	10	7	63	34
+4	Wigry Suwałki	64	18	10	8	51	35
+5	KKS 1925 Kalisz	57	17	6	13	51	40
+6	Skra Częstochowa	52	15	7	14	51	42
+7	Garbarnia Kraków	52	14	10	12	49	50
+8	Śląsk II Wrocław	52	15	7	14	61	57
+9	Motor Lublin	50	12	14	10	48	44
+10	Stal Rzeszów	50	14	8	14	58	60
+11	Sokół Ostróda	46	14	4	18	50	56
+12	Hutnik Kraków	45	13	6	17	47	61
+13	Pogoń Siedlce	42	12	9	15	61	62
+14	Lech II Poznań	40	11	7	18	47	58
+15	Znicz Pruszków	38	10	8	18	37	55
+16	Olimpia Elbląg	37	9	10	17	39	52
+17	Olimpia Grudziądz	36	10	6	20	42	67
+18	Błękitni Stargard	36	8	12	16	36	66
+19	Bytovia Bytów	34	8	10	18	46	65

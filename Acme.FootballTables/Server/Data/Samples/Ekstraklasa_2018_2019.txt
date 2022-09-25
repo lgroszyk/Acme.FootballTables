@@ -1,0 +1,16 @@
+﻿1	Piast Gliwice	72	21	9	7	57	33
+2	Legia Warszawa	68	20	8	9	55	38
+3	Lechia Gdańsk	67	19	10	8	54	38
+4	Cracovia	57	17	6	14	45	43
+5	Jagiellonia Białystok	57	16	9	12	55	52
+6	Zagłębie Lubin	53	15	8	14	57	48
+7	Pogoń Szczecin	52	14	10	13	57	54
+8	Lech Poznań	52	15	7	15	49	48
+9	Wisła Kraków	49	14	7	16	67	63
+10	Korona Kielce	47	12	11	14	42	54
+11	Górnik Zabrze	46	12	10	15	48	53
+12	Śląsk Wrocław	44	12	8	17	49	45
+13	Arka Gdynia	42	10	12	15	49	51
+14	Wisła Płock	41	10	11	16	50	58
+15	Miedź Legnica	40	10	10	17	40	65
+16	Zagłębie Sosnowiec	29	7	8	22	49	80

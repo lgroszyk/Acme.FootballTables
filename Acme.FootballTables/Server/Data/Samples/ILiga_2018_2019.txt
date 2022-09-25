@@ -1,0 +1,18 @@
+﻿1	Raków Częstochowa	70	20	10	4	54	22
+2	ŁKS Łódź	69	20	9	5	58	23
+3	Stal Mielec	64	18	10	6	59	28
+4	Sandecja Nowy Sącz	55	14	13	7	35	29
+5	GKS 1962 Jastrzębie (Jastrzębie Zdrój)	48	12	12	10	43	38
+6	Podbeskidzie Bielsko-Biała	48	13	9	12	52	46
+7	GKS Tychy	47	12	11	11	48	41
+8	Bruk-Bet Termalica Nieciecza	46	12	10	12	45	46
+9	Puszcza Niepołomice	44	12	8	14	37	45
+10	Chojniczanka Chojnice	42	10	12	12	49	49
+11	Stomil Olsztyn	40	11	10	13	38	43
+12	Odra Opole	40	10	10	14	47	58
+13	Warta Poznań	39	10	9	15	31	43
+14	Chrobry Głogów	39	10	9	15	29	39
+15	Wigry Suwałki	37	9	10	15	40	56
+16	Bytovia Bytów	37	7	16	11	45	50
+17	GKS Katowice	37	9	10	15	34	45
+18	Garbarnia Kraków	21	5	6	23	21	64

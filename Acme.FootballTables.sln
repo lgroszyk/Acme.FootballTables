@@ -14,6 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E6165AC0-ADF3-4553-9969-6DB4BFA75B0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Acme.FootballTables.Tests", "Acme.FootballTables.Tests\Acme.FootballTables.Tests.csproj", "{8D71D031-5079-4D61-87CB-3F57AEE29366}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{185F8F21-32CC-43F1-B231-1CB78B1AAE18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,9 +38,19 @@ Global
 		{8C348693-08DE-42CA-BB92-F56364CD0A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C348693-08DE-42CA-BB92-F56364CD0A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C348693-08DE-42CA-BB92-F56364CD0A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D71D031-5079-4D61-87CB-3F57AEE29366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D71D031-5079-4D61-87CB-3F57AEE29366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D71D031-5079-4D61-87CB-3F57AEE29366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D71D031-5079-4D61-87CB-3F57AEE29366}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F79890D5-3FC8-4C8E-A3A1-1EB9E6C5434C} = {185F8F21-32CC-43F1-B231-1CB78B1AAE18}
+		{6856C920-5039-497B-9F24-0E5DF8DA9804} = {185F8F21-32CC-43F1-B231-1CB78B1AAE18}
+		{8C348693-08DE-42CA-BB92-F56364CD0A4E} = {185F8F21-32CC-43F1-B231-1CB78B1AAE18}
+		{8D71D031-5079-4D61-87CB-3F57AEE29366} = {E6165AC0-ADF3-4553-9969-6DB4BFA75B0F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DCB8C6F4-FF28-40DE-AED8-194CE794615A}

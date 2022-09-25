@@ -1,0 +1,18 @@
+﻿1	Górnik Łęczna	63	18	9	7	47	37
+2	Widzew Łódź	59	17	8	9	65	37
+3	GKS Katowice	59	17	8	9	57	40
+4	Bytovia Bytów	52	14	10	10	50	48
+5	Resovia	52	13	13	8	50	32
+6	Stal Rzeszów	51	15	6	13	55	44
+7	Garbarnia Kraków	50	14	8	12	46	40
+8	Olimpia Elbląg	50	13	11	10	46	38
+9	Znicz Pruszków	49	15	4	15	49	52
+10	Pogoń Siedlce	49	15	4	15	54	53
+11	Górnik Polkowice	48	13	9	12	60	47
+12	Błękitni Stargard	47	14	5	15	54	53
+13	Lech II Poznań	47	12	11	11	49	47
+14	Skra Częstochowa	47	13	8	13	37	44
+15	Stal Stalowa Wola	46	13	7	14	45	49
+16	Elana Toruń	41	11	8	15	50	54
+17	Legionovia Legionowo	24	6	6	22	33	64
+18	Gryf Wejherowo	14	3	5	26	23	91

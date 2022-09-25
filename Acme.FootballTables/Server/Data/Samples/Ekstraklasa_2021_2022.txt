@@ -1,0 +1,18 @@
+﻿1	Lech Poznań	74	22	8	4	67	24
+2	Raków Częstochowa	69	20	9	5	60	30
+3	Pogoń Szczecin	65	18	11	5	63	31
+4	Lechia Gdańsk	57	16	9	9	52	39
+5	Piast Gliwice	54	15	9	10	45	37
+6	Wisła Płock	48	15	3	16	48	51
+7	Radomiak Radom	48	11	15	8	42	40
+8	Górnik Zabrze	47	13	8	13	55	55
+9	Cracovia	46	12	10	12	40	42
+10	Legia Warszawa	43	13	4	17	46	48
+11	Warta Poznań	42	11	9	14	35	38
+12	Jagiellonia Białystok	40	9	13	12	39	50
+13	Zagłębie Lubin	38	11	5	18	43	59
+14	Stal Mielec	37	9	10	15	39	52
+15	Śląsk Wrocław	35	7	14	13	42	52
+16	Bruk-Bet Termalica Nieciecza	32	7	11	16	36	56
+17	Wisła Kraków	31	7	10	17	37	54
+18	Górnik Łęczna	28	6	10	18	29	60
